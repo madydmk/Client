@@ -41,11 +41,8 @@ namespace Serveur
                     Console.WriteLine("Socket connecté à l'adresse : " + ipAddress,
                         sender.RemoteEndPoint.ToString());
 
-                    Console.WriteLine("Entrer la raison sociale : ");
-                    string requete = "insert into Patisserie values(" + Console.ReadLine();
-                    Console.WriteLine("Entrer le nom du proprio : ");
-                    requete += ", " +Console.ReadLine();
-
+                    Console.WriteLine("Entrer la requete : ");
+                    string requete = Console.ReadLine();
                     // Encode the data string into a byte array.  
                     byte[] msg = Encoding.ASCII.GetBytes(requete);
 
@@ -56,7 +53,7 @@ namespace Serveur
                     int bytesRec = sender.Receive(bytes);
                     Console.WriteLine("Echoed test = {0}",
                         Encoding.ASCII.GetString(bytes, 0, bytesRec));
-
+                    AfficherResult(Encoding.ASCII.GetString(bytes, 0, bytesRec));
                     // Release the socket.  
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();
@@ -79,6 +76,18 @@ namespace Serveur
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+            }
+        }
+
+        private static void AfficherResult(String result)
+        {
+            foreach(String a in result.Split("¤"))
+            {
+                foreach(String b in a.Split(";"))
+                {
+                    Console.WriteLine(b);
+                }
+                Console.WriteLine();
             }
         }
 
